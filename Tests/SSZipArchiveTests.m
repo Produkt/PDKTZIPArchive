@@ -8,16 +8,15 @@
 
 #import "SSZipArchive.h"
 #import <XCTest/XCTest.h>
-#import "CollectingDelegate.h"
 #import <SenTestingKit/SenTestingKit.h>
 #import <CommonCrypto/CommonDigest.h>
 
 @interface CancelDelegate : NSObject <SSZipArchiveDelegate>
-@property (nonatomic, assign) int numFilesUnzipped;
-@property (nonatomic, assign) int numFilesToUnzip;
+@property (nonatomic, assign) NSInteger numFilesUnzipped;
+@property (nonatomic, assign) NSInteger numFilesToUnzip;
 @property (nonatomic, assign) BOOL didUnzipArchive;
-@property (nonatomic, assign) int loaded;
-@property (nonatomic, assign) int total;
+@property (nonatomic, assign) NSInteger loaded;
+@property (nonatomic, assign) NSInteger total;
 @end
 
 @implementation CancelDelegate
