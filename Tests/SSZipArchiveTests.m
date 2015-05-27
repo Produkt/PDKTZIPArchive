@@ -391,7 +391,8 @@
 #pragma mark - Private
 
 - (NSString *)_cachesPath:(NSString *)directory {
-	NSString *path = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]
+    
+	NSString *path = [NSTemporaryDirectory()
 					   stringByAppendingPathComponent:@"com.samsoffes.ssziparchive.tests"];
 	if (directory) {
 		path = [path stringByAppendingPathComponent:directory];
