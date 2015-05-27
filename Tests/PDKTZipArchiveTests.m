@@ -9,7 +9,6 @@
 
 #import "PDKTZipArchive.h"
 #import <XCTest/XCTest.h>
-#import <SenTestingKit/SenTestingKit.h>
 #import <CommonCrypto/CommonDigest.h>
 
 @interface CancelDelegate : NSObject <PDKTZipArchiveDelegate>
