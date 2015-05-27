@@ -362,7 +362,7 @@
 	}
 	// final progress event = 100%
     if (!canceled && [delegate respondsToSelector:@selector(zipArchiveProgressEvent:total:)]) {
-		[delegate zipArchiveProgressEvent:fileSize total:fileSize];
+		[delegate zipArchiveProgressEvent:(NSInteger)fileSize total:(NSInteger)fileSize];
 	}
 
 	if (completionHandler)
