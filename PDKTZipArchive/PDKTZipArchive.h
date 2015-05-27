@@ -1,27 +1,28 @@
 //
-//  SSZipArchive.h
-//  SSZipArchive
+//  PDKTZipArchive.h
+//  PDKTZipArchive
 //
+//  Forked from SSZipArchive
 //  Created by Sam Soffes on 7/21/10.
 //  Copyright (c) Sam Soffes 2010-2015. All rights reserved.
 //
 
-#ifndef _SSZIPARCHIVE_H
-#define _SSZIPARCHIVE_H
+#ifndef _PDKTZipArchive_H
+#define _PDKTZipArchive_H
 
 #import <Foundation/Foundation.h>
 #include "unzip.h"
 
-@protocol SSZipArchiveDelegate;
+@protocol PDKTZipArchiveDelegate;
 
-@interface SSZipArchive : NSObject
+@interface PDKTZipArchive : NSObject
 
 // Unzip
 + (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination;
-+ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination delegate:(id<SSZipArchiveDelegate>)delegate;
++ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination delegate:(id<PDKTZipArchiveDelegate>)delegate;
 
 + (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination overwrite:(BOOL)overwrite password:(NSString *)password error:(NSError **)error;
-+ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination overwrite:(BOOL)overwrite password:(NSString *)password error:(NSError **)error delegate:(id<SSZipArchiveDelegate>)delegate;
++ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination overwrite:(BOOL)overwrite password:(NSString *)password error:(NSError **)error delegate:(id<PDKTZipArchiveDelegate>)delegate;
 
 + (BOOL)unzipFileAtPath:(NSString *)path
 		  toDestination:(NSString *)destination
@@ -49,7 +50,7 @@
 
 @end
 
-@protocol SSZipArchiveDelegate <NSObject>
+@protocol PDKTZipArchiveDelegate <NSObject>
 
 @optional
 
@@ -66,4 +67,4 @@
 
 @end
 
-#endif /* _SSZIPARCHIVE_H */
+#endif /* _PDKTZipArchive_H */

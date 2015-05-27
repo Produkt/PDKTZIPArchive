@@ -23,17 +23,17 @@
 		21CC41C217DB7D1300201DDC /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CC41C117DB7D1300201DDC /* XCTest.framework */; };
 		21CC41C317DB7D1300201DDC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CC41A817DB7D1300201DDC /* Foundation.framework */; };
 		21CC41C417DB7D1300201DDC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CC41AC17DB7D1300201DDC /* UIKit.framework */; };
-		21CC41EC17DB7D2F00201DDC /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CC41E317DB7D2F00201DDC /* SSZipArchive.m */; };
-		21CC41ED17DB7D2F00201DDC /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CC41E317DB7D2F00201DDC /* SSZipArchive.m */; };
+		21CC41EC17DB7D2F00201DDC /* PDKTZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CC41E317DB7D2F00201DDC /* PDKTZipArchive.m */; };
+		21CC41ED17DB7D2F00201DDC /* PDKTZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CC41E317DB7D2F00201DDC /* PDKTZipArchive.m */; };
 		21CC41F817DB7D3500201DDC /* IncorrectHeaders.zip in Resources */ = {isa = PBXBuildFile; fileRef = 21CC41F017DB7D3500201DDC /* IncorrectHeaders.zip */; };
 		21CC41F917DB7D3500201DDC /* PermissionsTestApp.app in Resources */ = {isa = PBXBuildFile; fileRef = 21CC41F117DB7D3500201DDC /* PermissionsTestApp.app */; };
 		21CC41FA17DB7D3500201DDC /* SymbolicLink.zip in Resources */ = {isa = PBXBuildFile; fileRef = 21CC41F217DB7D3500201DDC /* SymbolicLink.zip */; };
 		21CC41FB17DB7D3500201DDC /* TestArchive.zip in Resources */ = {isa = PBXBuildFile; fileRef = 21CC41F317DB7D3500201DDC /* TestArchive.zip */; };
 		21CC41FC17DB7D3500201DDC /* TestPasswordArchive.zip in Resources */ = {isa = PBXBuildFile; fileRef = 21CC41F417DB7D3500201DDC /* TestPasswordArchive.zip */; };
 		21CC41FD17DB7D3500201DDC /* Unicode.zip in Resources */ = {isa = PBXBuildFile; fileRef = 21CC41F517DB7D3500201DDC /* Unicode.zip */; };
-		21CC41FF17DB7D3500201DDC /* SSZipArchiveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CC41F717DB7D3500201DDC /* SSZipArchiveTests.m */; };
+		21CC41FF17DB7D3500201DDC /* PDKTZipArchiveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CC41F717DB7D3500201DDC /* PDKTZipArchiveTests.m */; };
 		21CC421017DB7D7400201DDC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CC420517DB7D6300201DDC /* main.m */; };
-		21CC421117DB7D7900201DDC /* SSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CC420317DB7D6300201DDC /* SSAppDelegate.m */; };
+		21CC421117DB7D7900201DDC /* PDKTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CC420317DB7D6300201DDC /* PDKTAppDelegate.m */; };
 		21CC421317DB7E0500201DDC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CC421217DB7E0500201DDC /* libz.dylib */; };
 		21CC421417DB7E0900201DDC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CC421217DB7E0500201DDC /* libz.dylib */; };
 		881900E71B1628B900809489 /* 0.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 881900DF1B1628B900809489 /* 0.m4a */; };
@@ -64,31 +64,31 @@
 		210D524D17DEFB880060D41A /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
 		210D524E17DEFB880060D41A /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
 		210D524F17DEFB880060D41A /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
-		210D525017DEFB880060D41A /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		210D525017DEFB880060D41A /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = unzip.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		210D525117DEFB880060D41A /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
 		210D525217DEFB880060D41A /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
 		210D525317DEFB880060D41A /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
-		21CC41A517DB7D1300201DDC /* SSZipArchive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SSZipArchive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		21CC41A517DB7D1300201DDC /* PDKTZipArchive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDKTZipArchive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21CC41A817DB7D1300201DDC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		21CC41AA17DB7D1300201DDC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		21CC41AC17DB7D1300201DDC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		21CC41C017DB7D1300201DDC /* SSZipArchiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SSZipArchiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		21CC41C017DB7D1300201DDC /* PDKTZipArchiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDKTZipArchiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21CC41C117DB7D1300201DDC /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		21CC41E217DB7D2F00201DDC /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
-		21CC41E317DB7D2F00201DDC /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		21CC41E217DB7D2F00201DDC /* PDKTZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PDKTZipArchive.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		21CC41E317DB7D2F00201DDC /* PDKTZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PDKTZipArchive.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		21CC41F017DB7D3500201DDC /* IncorrectHeaders.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = IncorrectHeaders.zip; sourceTree = "<group>"; };
 		21CC41F117DB7D3500201DDC /* PermissionsTestApp.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = PermissionsTestApp.app; sourceTree = "<group>"; };
 		21CC41F217DB7D3500201DDC /* SymbolicLink.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = SymbolicLink.zip; sourceTree = "<group>"; };
 		21CC41F317DB7D3500201DDC /* TestArchive.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = TestArchive.zip; sourceTree = "<group>"; };
 		21CC41F417DB7D3500201DDC /* TestPasswordArchive.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = TestPasswordArchive.zip; sourceTree = "<group>"; };
 		21CC41F517DB7D3500201DDC /* Unicode.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Unicode.zip; sourceTree = "<group>"; };
-		21CC41F617DB7D3500201DDC /* SSZipArchiveTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SSZipArchiveTests-Info.plist"; sourceTree = "<group>"; };
-		21CC41F717DB7D3500201DDC /* SSZipArchiveTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchiveTests.m; sourceTree = "<group>"; };
-		21CC420217DB7D6300201DDC /* SSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAppDelegate.h; sourceTree = "<group>"; };
-		21CC420317DB7D6300201DDC /* SSAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAppDelegate.m; sourceTree = "<group>"; };
-		21CC420517DB7D6300201DDC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		21CC420617DB7D6300201DDC /* SSZipArchive-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SSZipArchive-Prefix.pch"; sourceTree = "<group>"; };
-		21CC420917DB7D6300201DDC /* SSZipArchive-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SSZipArchive-Info.plist"; sourceTree = "<group>"; };
+		21CC41F617DB7D3500201DDC /* PDKTZipArchiveTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PDKTZipArchiveTests-Info.plist"; sourceTree = "<group>"; };
+		21CC41F717DB7D3500201DDC /* PDKTZipArchiveTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PDKTZipArchiveTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		21CC420217DB7D6300201DDC /* PDKTAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PDKTAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		21CC420317DB7D6300201DDC /* PDKTAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PDKTAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		21CC420517DB7D6300201DDC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		21CC420617DB7D6300201DDC /* PDKTZipArchive-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PDKTZipArchive-Prefix.pch"; sourceTree = "<group>"; };
+		21CC420917DB7D6300201DDC /* PDKTZipArchive-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PDKTZipArchive-Info.plist"; sourceTree = "<group>"; };
 		21CC421217DB7E0500201DDC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		881900DF1B1628B900809489 /* 0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 0.m4a; sourceTree = "<group>"; };
 		881900E01B1628B900809489 /* 1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.m4a; sourceTree = "<group>"; };
@@ -146,7 +146,7 @@
 		21CC419C17DB7D1300201DDC = {
 			isa = PBXGroup;
 			children = (
-				21CC41D717DB7D2F00201DDC /* SSZipArchive */,
+				21CC41D717DB7D2F00201DDC /* PDKTZipArchive */,
 				21CC41EE17DB7D3500201DDC /* Tests */,
 				21CC420017DB7D6300201DDC /* Sample Application */,
 				21CC41A717DB7D1300201DDC /* Frameworks */,
@@ -157,8 +157,8 @@
 		21CC41A617DB7D1300201DDC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				21CC41A517DB7D1300201DDC /* SSZipArchive.app */,
-				21CC41C017DB7D1300201DDC /* SSZipArchiveTests.xctest */,
+				21CC41A517DB7D1300201DDC /* PDKTZipArchive.app */,
+				21CC41C017DB7D1300201DDC /* PDKTZipArchiveTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,14 +175,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		21CC41D717DB7D2F00201DDC /* SSZipArchive */ = {
+		21CC41D717DB7D2F00201DDC /* PDKTZipArchive */ = {
 			isa = PBXGroup;
 			children = (
-				21CC41E217DB7D2F00201DDC /* SSZipArchive.h */,
-				21CC41E317DB7D2F00201DDC /* SSZipArchive.m */,
+				21CC41E217DB7D2F00201DDC /* PDKTZipArchive.h */,
+				21CC41E317DB7D2F00201DDC /* PDKTZipArchive.m */,
 				210D524A17DEFB880060D41A /* minizip */,
 			);
-			path = SSZipArchive;
+			path = PDKTZipArchive;
 			sourceTree = "<group>";
 		};
 		21CC41EE17DB7D3500201DDC /* Tests */ = {
@@ -190,8 +190,8 @@
 			children = (
 				881900DE1B1628B900809489 /* Multi_Zip_Test */,
 				21CC41EF17DB7D3500201DDC /* Fixtures */,
-				21CC41F617DB7D3500201DDC /* SSZipArchiveTests-Info.plist */,
-				21CC41F717DB7D3500201DDC /* SSZipArchiveTests.m */,
+				21CC41F617DB7D3500201DDC /* PDKTZipArchiveTests-Info.plist */,
+				21CC41F717DB7D3500201DDC /* PDKTZipArchiveTests.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -213,8 +213,8 @@
 		21CC420017DB7D6300201DDC /* Sample Application */ = {
 			isa = PBXGroup;
 			children = (
-				21CC420217DB7D6300201DDC /* SSAppDelegate.h */,
-				21CC420317DB7D6300201DDC /* SSAppDelegate.m */,
+				21CC420217DB7D6300201DDC /* PDKTAppDelegate.h */,
+				21CC420317DB7D6300201DDC /* PDKTAppDelegate.m */,
 				21CC420417DB7D6300201DDC /* Supporting Files */,
 			);
 			path = "Sample Application";
@@ -225,8 +225,8 @@
 			children = (
 				A5CD0D391AD3490700E7F209 /* Default-568h@2x.png */,
 				21CC420517DB7D6300201DDC /* main.m */,
-				21CC420617DB7D6300201DDC /* SSZipArchive-Prefix.pch */,
-				21CC420917DB7D6300201DDC /* SSZipArchive-Info.plist */,
+				21CC420617DB7D6300201DDC /* PDKTZipArchive-Prefix.pch */,
+				21CC420917DB7D6300201DDC /* PDKTZipArchive-Info.plist */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -249,9 +249,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		21CC41A417DB7D1300201DDC /* SSZipArchive */ = {
+		21CC41A417DB7D1300201DDC /* PDKTZipArchive */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21CC41D117DB7D1300201DDC /* Build configuration list for PBXNativeTarget "SSZipArchive" */;
+			buildConfigurationList = 21CC41D117DB7D1300201DDC /* Build configuration list for PBXNativeTarget "PDKTZipArchive" */;
 			buildPhases = (
 				21CC41A117DB7D1300201DDC /* Sources */,
 				21CC41A217DB7D1300201DDC /* Frameworks */,
@@ -261,14 +261,14 @@
 			);
 			dependencies = (
 			);
-			name = SSZipArchive;
+			name = PDKTZipArchive;
 			productName = SSZipArchive;
-			productReference = 21CC41A517DB7D1300201DDC /* SSZipArchive.app */;
+			productReference = 21CC41A517DB7D1300201DDC /* PDKTZipArchive.app */;
 			productType = "com.apple.product-type.application";
 		};
-		21CC41BF17DB7D1300201DDC /* SSZipArchiveTests */ = {
+		21CC41BF17DB7D1300201DDC /* PDKTZipArchiveTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21CC41D417DB7D1300201DDC /* Build configuration list for PBXNativeTarget "SSZipArchiveTests" */;
+			buildConfigurationList = 21CC41D417DB7D1300201DDC /* Build configuration list for PBXNativeTarget "PDKTZipArchiveTests" */;
 			buildPhases = (
 				21CC41BC17DB7D1300201DDC /* Sources */,
 				21CC41BD17DB7D1300201DDC /* Frameworks */,
@@ -279,9 +279,9 @@
 			dependencies = (
 				21CC41C617DB7D1300201DDC /* PBXTargetDependency */,
 			);
-			name = SSZipArchiveTests;
+			name = PDKTZipArchiveTests;
 			productName = SSZipArchiveTests;
-			productReference = 21CC41C017DB7D1300201DDC /* SSZipArchiveTests.xctest */;
+			productReference = 21CC41C017DB7D1300201DDC /* PDKTZipArchiveTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -299,7 +299,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 21CC41A017DB7D1300201DDC /* Build configuration list for PBXProject "SSZipArchive" */;
+			buildConfigurationList = 21CC41A017DB7D1300201DDC /* Build configuration list for PBXProject "PDKTZipArchive" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -311,8 +311,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				21CC41A417DB7D1300201DDC /* SSZipArchive */,
-				21CC41BF17DB7D1300201DDC /* SSZipArchiveTests */,
+				21CC41A417DB7D1300201DDC /* PDKTZipArchive */,
+				21CC41BF17DB7D1300201DDC /* PDKTZipArchiveTests */,
 			);
 		};
 /* End PBXProject section */
@@ -357,8 +357,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				210D525817DEFB880060D41A /* unzip.c in Sources */,
-				21CC41EC17DB7D2F00201DDC /* SSZipArchive.m in Sources */,
-				21CC421117DB7D7900201DDC /* SSAppDelegate.m in Sources */,
+				21CC41EC17DB7D2F00201DDC /* PDKTZipArchive.m in Sources */,
+				21CC421117DB7D7900201DDC /* PDKTAppDelegate.m in Sources */,
 				210D525417DEFB880060D41A /* ioapi.c in Sources */,
 				210D525A17DEFB880060D41A /* zip.c in Sources */,
 				21CC421017DB7D7400201DDC /* main.m in Sources */,
@@ -372,10 +372,10 @@
 			files = (
 				210D525517DEFB880060D41A /* ioapi.c in Sources */,
 				210D525917DEFB880060D41A /* unzip.c in Sources */,
-				21CC41FF17DB7D3500201DDC /* SSZipArchiveTests.m in Sources */,
+				21CC41FF17DB7D3500201DDC /* PDKTZipArchiveTests.m in Sources */,
 				210D525B17DEFB880060D41A /* zip.c in Sources */,
 				210D525717DEFB880060D41A /* mztools.c in Sources */,
-				21CC41ED17DB7D2F00201DDC /* SSZipArchive.m in Sources */,
+				21CC41ED17DB7D2F00201DDC /* PDKTZipArchive.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,7 +384,7 @@
 /* Begin PBXTargetDependency section */
 		21CC41C617DB7D1300201DDC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21CC41A417DB7D1300201DDC /* SSZipArchive */;
+			target = 21CC41A417DB7D1300201DDC /* PDKTZipArchive */;
 			targetProxy = 21CC41C517DB7D1300201DDC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -464,8 +464,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/Sample Application/Supporting Files/SSZipArchive-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/Sample Application/Supporting Files/SSZipArchive-Info.plist";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Sample Application/Supporting Files/PDKTZipArchive-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Sample Application/Supporting Files/PDKTZipArchive-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -475,8 +475,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/Sample Application/Supporting Files/SSZipArchive-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/Sample Application/Supporting Files/SSZipArchive-Info.plist";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Sample Application/Supporting Files/PDKTZipArchive-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Sample Application/Supporting Files/PDKTZipArchive-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -485,7 +485,7 @@
 		21CC41D517DB7D1300201DDC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SSZipArchive.app/SSZipArchive";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PDKTZipArchive.app/PDKTZipArchive";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -495,7 +495,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Tests/SSZipArchiveTests-Info.plist";
+				INFOPLIST_FILE = "Tests/PDKTZipArchiveTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -505,13 +505,13 @@
 		21CC41D617DB7D1300201DDC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SSZipArchive.app/SSZipArchive";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PDKTZipArchive.app/PDKTZipArchive";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
-				INFOPLIST_FILE = "Tests/SSZipArchiveTests-Info.plist";
+				INFOPLIST_FILE = "Tests/PDKTZipArchiveTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -521,7 +521,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		21CC41A017DB7D1300201DDC /* Build configuration list for PBXProject "SSZipArchive" */ = {
+		21CC41A017DB7D1300201DDC /* Build configuration list for PBXProject "PDKTZipArchive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21CC41CF17DB7D1300201DDC /* Debug */,
@@ -530,7 +530,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21CC41D117DB7D1300201DDC /* Build configuration list for PBXNativeTarget "SSZipArchive" */ = {
+		21CC41D117DB7D1300201DDC /* Build configuration list for PBXNativeTarget "PDKTZipArchive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21CC41D217DB7D1300201DDC /* Debug */,
@@ -539,7 +539,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21CC41D417DB7D1300201DDC /* Build configuration list for PBXNativeTarget "SSZipArchiveTests" */ = {
+		21CC41D417DB7D1300201DDC /* Build configuration list for PBXNativeTarget "PDKTZipArchiveTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21CC41D517DB7D1300201DDC /* Debug */,

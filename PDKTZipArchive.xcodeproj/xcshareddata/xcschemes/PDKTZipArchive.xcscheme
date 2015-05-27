@@ -15,6 +15,20 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "21CC41A417DB7D1300201DDC"
+               BuildableName = "PDKTZipArchive.app"
+               BlueprintName = "PDKTZipArchive"
+               ReferencedContainer = "container:PDKTZipArchive.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "21CC41A417DB7D1300201DDC"
                BuildableName = "SSZipArchive.app"
                BlueprintName = "SSZipArchive"
                ReferencedContainer = "container:SSZipArchive.xcodeproj">
@@ -33,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "21CC41BF17DB7D1300201DDC"
-               BuildableName = "SSZipArchiveTests.xctest"
-               BlueprintName = "SSZipArchiveTests"
-               ReferencedContainer = "container:SSZipArchive.xcodeproj">
+               BuildableName = "PDKTZipArchiveTests.xctest"
+               BlueprintName = "PDKTZipArchiveTests"
+               ReferencedContainer = "container:PDKTZipArchive.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -58,7 +72,8 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "21CC41A417DB7D1300201DDC"
@@ -76,7 +91,8 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "21CC41A417DB7D1300201DDC"

@@ -1,12 +1,13 @@
 //
-//  SSZipArchive.m
-//  SSZipArchive
+//  PDKTZipArchive.m
+//  PDKTZipArchive
 //
+//  Forked from SSZipArchive
 //  Created by Sam Soffes on 7/21/10.
 //  Copyright (c) Sam Soffes 2010-2015. All rights reserved.
 //
 
-#import "SSZipArchive.h"
+#import "PDKTZipArchive.h"
 #include "zip.h"
 #import "zlib.h"
 #import "zconf.h"
@@ -15,11 +16,11 @@
 
 #define CHUNK 16384
 
-@interface SSZipArchive ()
+@interface PDKTZipArchive ()
 + (NSDate *)_dateWithMSDOSFormat:(UInt32)msdosDateTime;
 @end
 
-@implementation SSZipArchive
+@implementation PDKTZipArchive
 {
 	NSString *_path;
 	NSString *_filename;
@@ -38,12 +39,12 @@
 	return [self unzipFileAtPath:path toDestination:destination overwrite:overwrite password:password error:error delegate:nil progressHandler:nil completionHandler:nil];
 }
 
-+ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination delegate:(id<SSZipArchiveDelegate>)delegate
++ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination delegate:(id<PDKTZipArchiveDelegate>)delegate
 {
 	return [self unzipFileAtPath:path toDestination:destination overwrite:YES password:nil error:nil delegate:delegate progressHandler:nil completionHandler:nil];
 }
 
-+ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination overwrite:(BOOL)overwrite password:(NSString *)password error:(NSError **)error delegate:(id<SSZipArchiveDelegate>)delegate
++ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination overwrite:(BOOL)overwrite password:(NSString *)password error:(NSError **)error delegate:(id<PDKTZipArchiveDelegate>)delegate
 {
 	return [self unzipFileAtPath:path toDestination:destination overwrite:overwrite password:password error:error delegate:delegate progressHandler:nil completionHandler:nil];
 }
@@ -71,7 +72,7 @@
 			  overwrite:(BOOL)overwrite
 			   password:(NSString *)password
 				  error:(NSError **)error
-			   delegate:(id<SSZipArchiveDelegate>)delegate
+			   delegate:(id<PDKTZipArchiveDelegate>)delegate
 		progressHandler:(void (^)(NSString *entry, unz_file_info zipInfo, long entryNumber, long total))progressHandler
 	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler
 {
@@ -80,7 +81,7 @@
 	if (zip == NULL)
 	{
 		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"failed to open zip file" forKey:NSLocalizedDescriptionKey];
-		NSError *err = [NSError errorWithDomain:@"SSZipArchiveErrorDomain" code:-1 userInfo:userInfo];
+		NSError *err = [NSError errorWithDomain:@"PDKTZipArchiveErrorDomain" code:-1 userInfo:userInfo];
 		if (error)
 		{
 			*error = err;
@@ -103,7 +104,7 @@
 	if (unzGoToFirstFile(zip) != UNZ_OK)
 	{
 		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"failed to open first file in zip file" forKey:NSLocalizedDescriptionKey];
-		NSError *err = [NSError errorWithDomain:@"SSZipArchiveErrorDomain" code:-2 userInfo:userInfo];
+		NSError *err = [NSError errorWithDomain:@"PDKTZipArchiveErrorDomain" code:-2 userInfo:userInfo];
 		if (error)
 		{
 			*error = err;
@@ -223,7 +224,7 @@
 				[fileManager createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:directoryAttr error:&err];
 			}
 	        if (nil != err) {
-	            NSLog(@"[SSZipArchive] Error: %@", err.localizedDescription);
+	            NSLog(@"[PDKTZipArchive] Error: %@", err.localizedDescription);
 	        }
 
 	        if(!fileIsSymbolicLink)
@@ -265,7 +266,7 @@
 	                    if (attr) {
 	                        if ([fileManager setAttributes:attr ofItemAtPath:fullPath error:nil] == NO) {
 	                            // Can't set attributes
-	                            NSLog(@"[SSZipArchive] Failed to set attributes - whilst setting modification date");
+	                            NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting modification date");
 	                        }
 	                    }
 	                }
@@ -285,7 +286,7 @@
                         // Update attributes
                         if ([fileManager setAttributes:attrs ofItemAtPath:fullPath error:nil] == NO) {
                             // Unable to set the permissions attribute
-                            NSLog(@"[SSZipArchive] Failed to set attributes - whilst setting permissions");
+                            NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting permissions");
                         }
                         
 #if !__has_feature(objc_arc)
@@ -344,10 +345,10 @@
     NSError * err = nil;
     for (NSDictionary * d in directoriesModificationDates) {
         if (![[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[d objectForKey:@"modDate"], NSFileModificationDate, nil] ofItemAtPath:[d objectForKey:@"path"] error:&err]) {
-            NSLog(@"[SSZipArchive] Set attributes failed for directory: %@.", [d objectForKey:@"path"]);
+            NSLog(@"[PDKTZipArchive] Set attributes failed for directory: %@.", [d objectForKey:@"path"]);
         }
         if (err) {
-            NSLog(@"[SSZipArchive] Error setting directory file modification date attribute: %@",err.localizedDescription);
+            NSLog(@"[PDKTZipArchive] Error setting directory file modification date attribute: %@",err.localizedDescription);
         }
     }
 
@@ -376,7 +377,7 @@
 + (BOOL)createZipFileAtPath:(NSString *)path withFilesAtPaths:(NSArray *)paths
 {
 	BOOL success = NO;
-	SSZipArchive *zipArchive = [[SSZipArchive alloc] initWithPath:path];
+	PDKTZipArchive *zipArchive = [[PDKTZipArchive alloc] initWithPath:path];
 	if ([zipArchive open]) {
 		for (NSString *filePath in paths) {
 			[zipArchive writeFile:filePath];
@@ -400,7 +401,7 @@
     BOOL success = NO;
     
     NSFileManager *fileManager = nil;
-    SSZipArchive *zipArchive = [[SSZipArchive alloc] initWithPath:path];
+    PDKTZipArchive *zipArchive = [[PDKTZipArchive alloc] initWithPath:path];
     
     if ([zipArchive open]) {
         // use a local filemanager (queue/thread compatibility)
@@ -616,7 +617,7 @@
 
 - (BOOL)close
 {
-	NSAssert((_zip != NULL), @"[SSZipArchive] Attempting to close an archive which was never opened");
+	NSAssert((_zip != NULL), @"[PDKTZipArchive] Attempting to close an archive which was never opened");
 	zipClose(_zip, NULL);
 	return YES;
 }
@@ -651,7 +652,7 @@
 
     NSDateComponents *components = [[NSDateComponents alloc] init];
 
-    NSAssert(0xFFFFFFFF == (kYearMask | kMonthMask | kDayMask | kHourMask | kMinuteMask | kSecondMask), @"[SSZipArchive] MSDOS date masks don't add up");
+    NSAssert(0xFFFFFFFF == (kYearMask | kMonthMask | kDayMask | kHourMask | kMinuteMask | kSecondMask), @"[PDKTZipArchive] MSDOS date masks don't add up");
 
     [components setYear:1980 + ((msdosDateTime & kYearMask) >> 25)];
     [components setMonth:(msdosDateTime & kMonthMask) >> 21];
