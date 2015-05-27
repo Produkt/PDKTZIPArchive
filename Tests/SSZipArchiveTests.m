@@ -345,16 +345,6 @@
 //	[SSZipArchive unzipFileAtPath:zipPath toDestination:outputPath];
 //}
 
--(void)testShouldProvidePathOfUnzippedFileInDelegateCallback {
-    CollectingDelegate *collector = [CollectingDelegate new];
-    NSString *zipPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"TestArchive" ofType:@"zip"];
-   	NSString *outputPath = [self _cachesPath:@"Regular"];
-
-   	[SSZipArchive unzipFileAtPath:zipPath toDestination:outputPath delegate:collector];
-
-//    STAssertEqualObjects([collector.files objectAtIndex:0], @"LICENSE.txt", nil);
-//    STAssertEqualObjects([collector.files objectAtIndex:1], @"README.md", nil);
-}
 
 #pragma mark - SSZipArchiveDelegate
 
