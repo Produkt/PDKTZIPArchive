@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'PDKTZipArchive'
-  s.version      = '0.3.4'
+  s.version      = '0.3.5'
   s.summary      = 'Utility class for zipping and unzipping files on iOS and Mac.'
   s.description  = 'PDKTZipArchive is a simple utility class for zipping and unzipping files on iOS and Mac.'
   s.homepage     = 'https://github.com/Produkt/PDKTZipArchive'
