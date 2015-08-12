@@ -9,6 +9,7 @@
 
 #import "PDKTZipArchive.h"
 #include "zip.h"
+#include "unzip.h"
 #import "zlib.h"
 #import "zconf.h"
 

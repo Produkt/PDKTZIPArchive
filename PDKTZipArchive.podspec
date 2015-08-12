@@ -9,7 +9,8 @@ Pod::Spec.new do |s|
   s.source       = { :git => 'https://github.com/Produkt/PDKTZipArchive.git', :tag => "v#{s.version}" }
   s.ios.deployment_target = '4.0'
   s.osx.deployment_target = '10.6'
-  s.source_files = 'PDKTZipArchive/*', 'PDKTZipArchive/minizip/*'
+  s.source_files = 'PDKTZipArchive/*.{h,m}', 'PDKTZipArchive/minizip/*.{h,c}'
+  s.public_header_files = 'PDKTZipArchive/PDKTZipArchive.h'
   s.library = 'z'
   s.requires_arc = true
 end
