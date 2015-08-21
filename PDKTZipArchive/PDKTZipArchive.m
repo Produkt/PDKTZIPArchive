@@ -256,9 +256,13 @@
 
 	            if (fp) {
                     if ([[[fullPath pathExtension] lowercaseString] isEqualToString:@"zip"]) {
-                        NSLog(@"Unzipping nested .zip file:  %@", [fullPath lastPathComponent]);
-                        if ([self unzipFileAtPath:fullPath toDestination:[fullPath stringByDeletingLastPathComponent] overwrite:overwrite password:password error:nil delegate:nil]) {
+                        NSError *error;
+                        NSString* nestedFilename = [fullPath lastPathComponent];
+                        NSLog(@"Unzipping nested .zip file:  %@", nestedFilename);
+                        if ([self unzipFileAtPath:fullPath toDestination:[fullPath stringByDeletingLastPathComponent] overwrite:overwrite password:password error:&error delegate:delegate]) {
                             [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+                        } else {
+                            NSLog(@"Failure unzipping nested zip file: %@\n %@", nestedFilename, error.localizedDescription);
                         }
                     }
                     
