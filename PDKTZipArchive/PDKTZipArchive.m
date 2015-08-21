@@ -17,6 +17,10 @@
 
 #define CHUNK 16384
 
+#ifndef UNZIP_NESTED_ZIPS
+#define UNZIP_NESTED_ZIPS YES
+#endif
+
 @interface PDKTZipArchive ()
 + (NSDate *)_dateWithMSDOSFormat:(UInt32)msdosDateTime;
 @end
@@ -255,7 +259,10 @@
 	            }
 
 	            if (fp) {
-                    if ([[[fullPath pathExtension] lowercaseString] isEqualToString:@"zip"]) {
+                    fclose(fp);
+
+                        // If it's a zip, unzip its contents as well
+                    if (UNZIP_NESTED_ZIPS && [[[fullPath pathExtension] lowercaseString] isEqualToString:@"zip"]) {
                         NSError *error;
                         NSString* nestedFilename = [fullPath lastPathComponent];
                         NSLog(@"Unzipping nested .zip file:  %@", nestedFilename);
@@ -264,44 +271,42 @@
                         } else {
                             NSLog(@"Failure unzipping nested zip file: %@\n %@", nestedFilename, error.localizedDescription);
                         }
-                    }
-                    
-	                fclose(fp);
+                    } else {
+                            // Set the original datetime property
+                        if (fileInfo.dosDate != 0) {
+                            NSDate *orgDate = [[self class] _dateWithMSDOSFormat:(UInt32)fileInfo.dosDate];
+                            NSDictionary *attr = [NSDictionary dictionaryWithObject:orgDate forKey:NSFileModificationDate];
 
-	                // Set the original datetime property
-	                if (fileInfo.dosDate != 0) {
-	                    NSDate *orgDate = [[self class] _dateWithMSDOSFormat:(UInt32)fileInfo.dosDate];
-	                    NSDictionary *attr = [NSDictionary dictionaryWithObject:orgDate forKey:NSFileModificationDate];
-
-	                    if (attr) {
-	                        if ([fileManager setAttributes:attr ofItemAtPath:fullPath error:nil] == NO) {
-	                            // Can't set attributes
-	                            NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting modification date");
-	                        }
-	                    }
-	                }
-
-                    // Set the original permissions on the file
-                    uLong permissions = fileInfo.external_fa >> 16;
-                    if (permissions != 0) {
-                        // Store it into a NSNumber
-                        NSNumber *permissionsValue = @(permissions);
-
-                        // Retrieve any existing attributes
-                        NSMutableDictionary *attrs = [[NSMutableDictionary alloc] initWithDictionary:[fileManager attributesOfItemAtPath:fullPath error:nil]];
-
-                        // Set the value in the attributes dict
-                        attrs[NSFilePosixPermissions] = permissionsValue;
-
-                        // Update attributes
-                        if ([fileManager setAttributes:attrs ofItemAtPath:fullPath error:nil] == NO) {
-                            // Unable to set the permissions attribute
-                            NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting permissions");
+                            if (attr) {
+                                if ([fileManager setAttributes:attr ofItemAtPath:fullPath error:nil] == NO) {
+                                        // Can't set attributes
+                                    NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting modification date");
+                                }
+                            }
                         }
-                        
+
+                            // Set the original permissions on the file
+                        uLong permissions = fileInfo.external_fa >> 16;
+                        if (permissions != 0) {
+                                // Store it into a NSNumber
+                            NSNumber *permissionsValue = @(permissions);
+
+                                // Retrieve any existing attributes
+                            NSMutableDictionary *attrs = [[NSMutableDictionary alloc] initWithDictionary:[fileManager attributesOfItemAtPath:fullPath error:nil]];
+
+                                // Set the value in the attributes dict
+                            attrs[NSFilePosixPermissions] = permissionsValue;
+
+                                // Update attributes
+                            if ([fileManager setAttributes:attrs ofItemAtPath:fullPath error:nil] == NO) {
+                                    // Unable to set the permissions attribute
+                                NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting permissions");
+                            }
+                            
 #if !__has_feature(objc_arc)
-                        [attrs release];
+                            [attrs release];
 #endif
+                        }
                     }
 	            }
 	        }
