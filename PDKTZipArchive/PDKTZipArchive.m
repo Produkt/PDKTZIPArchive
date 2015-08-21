@@ -260,18 +260,9 @@
 
 	            if (fp) {
                     fclose(fp);
-
-                        // If it's a zip, unzip its contents as well
-                    if (UNZIP_NESTED_ZIPS && [[[fullPath pathExtension] lowercaseString] isEqualToString:@"zip"]) {
-                        NSError *error;
-                        NSString* nestedFilename = [fullPath lastPathComponent];
-                        NSLog(@"Unzipping nested .zip file:  %@", nestedFilename);
-                        if ([self unzipFileAtPath:fullPath toDestination:[fullPath stringByDeletingLastPathComponent] overwrite:overwrite password:password error:&error delegate:delegate]) {
-                            [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
-                        } else {
-                            NSLog(@"Failure unzipping nested zip file: %@\n %@", nestedFilename, error.localizedDescription);
-                        }
-                    } else {
+                        // Create block so we can call if not an internal zip
+                        // or if there's an error with the extraction of internal zip
+                    dispatch_block_t setFileAttributes = ^{
                             // Set the original datetime property
                         if (fileInfo.dosDate != 0) {
                             NSDate *orgDate = [[self class] _dateWithMSDOSFormat:(UInt32)fileInfo.dosDate];
@@ -307,6 +298,21 @@
                             [attrs release];
 #endif
                         }
+                    };
+
+                        // If it's a zip, unzip its contents as well
+                    if (UNZIP_NESTED_ZIPS && [[[fullPath pathExtension] lowercaseString] isEqualToString:@"zip"]) {
+                        NSError *error;
+                        NSString* nestedFilename = [fullPath lastPathComponent];
+                        NSLog(@"Unzipping nested .zip file:  %@", nestedFilename);
+                        if ([self unzipFileAtPath:fullPath toDestination:[fullPath stringByDeletingLastPathComponent] overwrite:overwrite password:password error:&error delegate:delegate]) {
+                            [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+                        } else {
+                            NSLog(@"Failure unzipping nested zip file: %@\n %@", nestedFilename, error.localizedDescription);
+                            setFileAttributes();
+                        }
+                    } else {
+                        setFileAttributes();
                     }
 	            }
 	        }
