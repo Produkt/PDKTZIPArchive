@@ -15,6 +15,9 @@
 typedef struct unz_file_info_s unz_file_info_h;
 typedef struct unz_global_info_s unz_global_info_h;
 
+typedef void(^PDKTZipProgressHandler)(NSString *entry, unz_file_info_h zipInfo, long entryNumber, long total);
+typedef void(^PDKTZipCompletionHandler)(NSString *path, BOOL succeeded, NSError *error);
+
 @protocol PDKTZipArchiveDelegate;
 
 @interface PDKTZipArchive : NSObject
@@ -27,16 +30,24 @@ typedef struct unz_global_info_s unz_global_info_h;
 + (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination overwrite:(BOOL)overwrite password:(NSString *)password error:(NSError **)error delegate:(id<PDKTZipArchiveDelegate>)delegate;
 
 + (BOOL)unzipFileAtPath:(NSString *)path
-		  toDestination:(NSString *)destination
-		progressHandler:(void (^)(NSString *entry, unz_file_info_h zipInfo, long entryNumber, long total))progressHandler
-	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler;
+          toDestination:(NSString *)destination
+        progressHandler:(PDKTZipProgressHandler)progressHandler
+      completionHandler:(PDKTZipCompletionHandler)completionHandler;
 
 + (BOOL)unzipFileAtPath:(NSString *)path
-		  toDestination:(NSString *)destination
-			  overwrite:(BOOL)overwrite
-			   password:(NSString *)password
-		progressHandler:(void (^)(NSString *entry, unz_file_info_h zipInfo, long entryNumber, long total))progressHandler
-	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler;
+          toDestination:(NSString *)destination
+              overwrite:(BOOL)overwrite
+               password:(NSString *)password
+        progressHandler:(PDKTZipProgressHandler)progressHandler
+      completionHandler:(PDKTZipCompletionHandler)completionHandler;
+
+// Swift compatible versions
++ (BOOL)unzipFileAtPath:(NSString *)path
+          toDestination:(NSString *)destination
+              overwrite:(BOOL)overwrite
+               password:(NSString *)password
+               delegate:(id<PDKTZipArchiveDelegate>)delegate
+                  error:(NSError **)error;
 
 // Zip
 + (BOOL)createZipFileAtPath:(NSString *)path withFilesAtPaths:(NSArray *)filenames;

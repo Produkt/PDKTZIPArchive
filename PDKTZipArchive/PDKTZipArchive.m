@@ -50,20 +50,25 @@
 	return [self unzipFileAtPath:path toDestination:destination overwrite:overwrite password:password error:error delegate:delegate progressHandler:nil completionHandler:nil];
 }
 
++ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination overwrite:(BOOL)overwrite password:(NSString *)password delegate:(id<PDKTZipArchiveDelegate>)delegate error:(NSError **)error
+{
+    return [self unzipFileAtPath:path toDestination:destination overwrite:overwrite password:password error:error delegate:delegate progressHandler:nil completionHandler:nil];
+}
+
 + (BOOL)unzipFileAtPath:(NSString *)path
 		  toDestination:(NSString *)destination
 			  overwrite:(BOOL)overwrite
 			   password:(NSString *)password
-		progressHandler:(void (^)(NSString *entry, unz_file_info zipInfo, long entryNumber, long total))progressHandler
-	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler
+		progressHandler:(PDKTZipProgressHandler)progressHandler
+	  completionHandler:(PDKTZipCompletionHandler)completionHandler
 {
 	return [self unzipFileAtPath:path toDestination:destination overwrite:overwrite password:password error:nil delegate:nil progressHandler:progressHandler completionHandler:completionHandler];
 }
 
 + (BOOL)unzipFileAtPath:(NSString *)path
 		  toDestination:(NSString *)destination
-		progressHandler:(void (^)(NSString *entry, unz_file_info zipInfo, long entryNumber, long total))progressHandler
-	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler
+		progressHandler:(PDKTZipProgressHandler)progressHandler
+	  completionHandler:(PDKTZipCompletionHandler)completionHandler
 {
 	return [self unzipFileAtPath:path toDestination:destination overwrite:YES password:nil error:nil delegate:nil progressHandler:progressHandler completionHandler:completionHandler];
 }
@@ -74,8 +79,8 @@
 			   password:(NSString *)password
 				  error:(NSError **)error
 			   delegate:(id<PDKTZipArchiveDelegate>)delegate
-		progressHandler:(void (^)(NSString *entry, unz_file_info zipInfo, long entryNumber, long total))progressHandler
-	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler
+		progressHandler:(PDKTZipProgressHandler)progressHandler
+	  completionHandler:(PDKTZipCompletionHandler)completionHandler
 {
 	// Begin opening
 	zipFile zip = unzOpen((const char*)[path UTF8String]);
