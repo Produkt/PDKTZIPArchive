@@ -8,6 +8,7 @@
 //
 
 #import "PDKTZipArchive.h"
+#include "unzip.h"
 #import <XCTest/XCTest.h>
 #import <CommonCrypto/CommonDigest.h>
 

@@ -9,12 +9,17 @@
 
 #import "PDKTZipArchive.h"
 #include "zip.h"
+#include "unzip.h"
 #import "zlib.h"
 #import "zconf.h"
 
 #include <sys/stat.h>
 
 #define CHUNK 16384
+
+#ifndef UNZIP_NESTED_ZIPS
+#define UNZIP_NESTED_ZIPS YES
+#endif
 
 @interface PDKTZipArchive ()
 + (NSDate *)_dateWithMSDOSFormat:(UInt32)msdosDateTime;
@@ -49,20 +54,25 @@
 	return [self unzipFileAtPath:path toDestination:destination overwrite:overwrite password:password error:error delegate:delegate progressHandler:nil completionHandler:nil];
 }
 
++ (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination overwrite:(BOOL)overwrite password:(NSString *)password delegate:(id<PDKTZipArchiveDelegate>)delegate error:(NSError **)error
+{
+    return [self unzipFileAtPath:path toDestination:destination overwrite:overwrite password:password error:error delegate:delegate progressHandler:nil completionHandler:nil];
+}
+
 + (BOOL)unzipFileAtPath:(NSString *)path
 		  toDestination:(NSString *)destination
 			  overwrite:(BOOL)overwrite
 			   password:(NSString *)password
-		progressHandler:(void (^)(NSString *entry, unz_file_info zipInfo, long entryNumber, long total))progressHandler
-	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler
+		progressHandler:(PDKTZipProgressHandler)progressHandler
+	  completionHandler:(PDKTZipCompletionHandler)completionHandler
 {
 	return [self unzipFileAtPath:path toDestination:destination overwrite:overwrite password:password error:nil delegate:nil progressHandler:progressHandler completionHandler:completionHandler];
 }
 
 + (BOOL)unzipFileAtPath:(NSString *)path
 		  toDestination:(NSString *)destination
-		progressHandler:(void (^)(NSString *entry, unz_file_info zipInfo, long entryNumber, long total))progressHandler
-	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler
+		progressHandler:(PDKTZipProgressHandler)progressHandler
+	  completionHandler:(PDKTZipCompletionHandler)completionHandler
 {
 	return [self unzipFileAtPath:path toDestination:destination overwrite:YES password:nil error:nil delegate:nil progressHandler:progressHandler completionHandler:completionHandler];
 }
@@ -73,8 +83,8 @@
 			   password:(NSString *)password
 				  error:(NSError **)error
 			   delegate:(id<PDKTZipArchiveDelegate>)delegate
-		progressHandler:(void (^)(NSString *entry, unz_file_info zipInfo, long entryNumber, long total))progressHandler
-	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler
+		progressHandler:(PDKTZipProgressHandler)progressHandler
+	  completionHandler:(PDKTZipCompletionHandler)completionHandler
 {
 	// Begin opening
 	zipFile zip = unzOpen((const char*)[path UTF8String]);
@@ -249,49 +259,60 @@
 	            }
 
 	            if (fp) {
-                    if ([[[fullPath pathExtension] lowercaseString] isEqualToString:@"zip"]) {
-                        NSLog(@"Unzipping nested .zip file:  %@", [fullPath lastPathComponent]);
-                        if ([self unzipFileAtPath:fullPath toDestination:[fullPath stringByDeletingLastPathComponent] overwrite:overwrite password:password error:nil delegate:nil]) {
-                            [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+                    fclose(fp);
+                        // Create block so we can call if not an internal zip
+                        // or if there's an error with the extraction of internal zip
+                    dispatch_block_t setFileAttributes = ^{
+                            // Set the original datetime property
+                        if (fileInfo.dosDate != 0) {
+                            NSDate *orgDate = [[self class] _dateWithMSDOSFormat:(UInt32)fileInfo.dosDate];
+                            NSDictionary *attr = [NSDictionary dictionaryWithObject:orgDate forKey:NSFileModificationDate];
+
+                            if (attr) {
+                                if ([fileManager setAttributes:attr ofItemAtPath:fullPath error:nil] == NO) {
+                                        // Can't set attributes
+                                    NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting modification date");
+                                }
+                            }
                         }
-                    }
-                    
-	                fclose(fp);
 
-	                // Set the original datetime property
-	                if (fileInfo.dosDate != 0) {
-	                    NSDate *orgDate = [[self class] _dateWithMSDOSFormat:(UInt32)fileInfo.dosDate];
-	                    NSDictionary *attr = [NSDictionary dictionaryWithObject:orgDate forKey:NSFileModificationDate];
+                            // Set the original permissions on the file
+                        uLong permissions = fileInfo.external_fa >> 16;
+                        if (permissions != 0) {
+                                // Store it into a NSNumber
+                            NSNumber *permissionsValue = @(permissions);
 
-	                    if (attr) {
-	                        if ([fileManager setAttributes:attr ofItemAtPath:fullPath error:nil] == NO) {
-	                            // Can't set attributes
-	                            NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting modification date");
-	                        }
-	                    }
-	                }
+                                // Retrieve any existing attributes
+                            NSMutableDictionary *attrs = [[NSMutableDictionary alloc] initWithDictionary:[fileManager attributesOfItemAtPath:fullPath error:nil]];
 
-                    // Set the original permissions on the file
-                    uLong permissions = fileInfo.external_fa >> 16;
-                    if (permissions != 0) {
-                        // Store it into a NSNumber
-                        NSNumber *permissionsValue = @(permissions);
+                                // Set the value in the attributes dict
+                            attrs[NSFilePosixPermissions] = permissionsValue;
 
-                        // Retrieve any existing attributes
-                        NSMutableDictionary *attrs = [[NSMutableDictionary alloc] initWithDictionary:[fileManager attributesOfItemAtPath:fullPath error:nil]];
-
-                        // Set the value in the attributes dict
-                        attrs[NSFilePosixPermissions] = permissionsValue;
-
-                        // Update attributes
-                        if ([fileManager setAttributes:attrs ofItemAtPath:fullPath error:nil] == NO) {
-                            // Unable to set the permissions attribute
-                            NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting permissions");
-                        }
-                        
+                                // Update attributes
+                            if ([fileManager setAttributes:attrs ofItemAtPath:fullPath error:nil] == NO) {
+                                    // Unable to set the permissions attribute
+                                NSLog(@"[PDKTZipArchive] Failed to set attributes - whilst setting permissions");
+                            }
+                            
 #if !__has_feature(objc_arc)
-                        [attrs release];
+                            [attrs release];
 #endif
+                        }
+                    };
+
+                        // If it's a zip, unzip its contents as well
+                    if (UNZIP_NESTED_ZIPS && [[[fullPath pathExtension] lowercaseString] isEqualToString:@"zip"]) {
+                        NSError *error;
+                        NSString* nestedFilename = [fullPath lastPathComponent];
+                        NSLog(@"Unzipping nested .zip file:  %@", nestedFilename);
+                        if ([self unzipFileAtPath:fullPath toDestination:[fullPath stringByDeletingLastPathComponent] overwrite:overwrite password:password error:&error delegate:delegate]) {
+                            [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+                        } else {
+                            NSLog(@"Failure unzipping nested zip file: %@\n %@", nestedFilename, error.localizedDescription);
+                            setFileAttributes();
+                        }
+                    } else {
+                        setFileAttributes();
                     }
 	            }
 	        }
