@@ -141,6 +141,7 @@
     XCTAssertEqual(contents.count, 2);
     
     PDKTZipFileInfo *licenseInfo = [contents firstObject];
+    XCTAssertEqual(licenseInfo.index, 0);
     XCTAssertEqualObjects(licenseInfo.filename, @"LICENSE");
     XCTAssertNotNil(licenseInfo.timestamp);
     XCTAssertEqual(licenseInfo.CRC, 3911215856);
@@ -149,6 +150,7 @@
     XCTAssertFalse(licenseInfo.isDirectory);
     
     PDKTZipFileInfo *readmeInfo = [contents lastObject];
+    XCTAssertEqual(readmeInfo.index, 1);
     XCTAssertEqualObjects(readmeInfo.filename, @"Readme.markdown");
     XCTAssertNotNil(readmeInfo.timestamp);
     XCTAssertEqual(readmeInfo.CRC, 3219512633);

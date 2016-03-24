@@ -25,7 +25,7 @@
 
 @interface PDKTZipFileInfo ()
 
-@property (readwrite) NSUInteger *index;
+@property (readwrite) NSUInteger index;
 @property (readwrite, strong) NSString *filename;
 @property (readwrite, strong) NSDate *timestamp;
 @property (readwrite, assign) NSUInteger CRC;
@@ -33,13 +33,13 @@
 @property (readwrite, assign) long long compressedSize;
 @property (readwrite) BOOL isDirectory;
 
-- (instancetype)initWithZipFileInfo:(unz_file_info)fileInfo zipFile:(zipFile)zip;
+- (instancetype)initWithZipFileInfo:(unz_file_info)fileInfo zipFile:(zipFile)zip index:(NSUInteger)index;
 
 @end
 
 @implementation PDKTZipFileInfo
 
-- (instancetype)initWithZipFileInfo:(unz_file_info)fileInfo zipFile:(zipFile)zip
+- (instancetype)initWithZipFileInfo:(unz_file_info)fileInfo zipFile:(zipFile)zip index:(NSUInteger)index
 {
     if (!(self = [super init])) return nil;
     
@@ -58,6 +58,7 @@
     self.uncompressedSize = fileInfo.uncompressed_size;
     self.compressedSize = fileInfo.compressed_size;
     self.isDirectory = isDirectory;
+    self.index = index;
     
     return self;
 }
@@ -491,6 +492,7 @@
     }
     
     int ret = 0;
+    NSUInteger fileIndex = 0;
     NSMutableArray *contentsInfo = [NSMutableArray array];
     do {
         @autoreleasepool {
@@ -513,11 +515,12 @@
                 unzCloseCurrentFile(_zip);
                 break;
             }
-            PDKTZipFileInfo *zipFileInfo = [[PDKTZipFileInfo alloc] initWithZipFileInfo:fileInfo zipFile:_zip];
+            PDKTZipFileInfo *zipFileInfo = [[PDKTZipFileInfo alloc] initWithZipFileInfo:fileInfo zipFile:_zip index:fileIndex];
             [contentsInfo addObject:zipFileInfo];
             
-            unzCloseCurrentFile( _zip );
-            ret = unzGoToNextFile( _zip );
+            unzCloseCurrentFile(_zip);
+            ret = unzGoToNextFile(_zip);
+            fileIndex++;
         }
     } while(ret == UNZ_OK && ret != UNZ_END_OF_LIST_OF_FILE);
     

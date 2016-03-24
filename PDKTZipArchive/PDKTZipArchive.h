@@ -56,7 +56,7 @@
 
 @interface PDKTZipFileInfo : NSObject
 
-@property (readonly) NSUInteger *index;
+@property (readonly) NSUInteger index;
 
 /**
  *  The name of the file
