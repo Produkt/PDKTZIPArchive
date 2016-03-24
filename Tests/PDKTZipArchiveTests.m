@@ -164,6 +164,19 @@
     PDKTZipArchive *zipArchive = [[PDKTZipArchive alloc]initWithPath:zipPath];
     NSError *error;
     NSArray<PDKTZipFileInfo *> *contents = [zipArchive fetchContentInfoWithError:&error];
+    
+    PDKTZipFileInfo *readmeInfo = [contents lastObject];
+    NSError *readmeUnzipError;
+    NSData *readmeData = [zipArchive unzipFileWithInfo:readmeInfo error:&readmeUnzipError];
+    XCTAssertNil(readmeUnzipError);
+    XCTAssert(readmeData.length == 905);
+    
+    
+    PDKTZipFileInfo *licenseInfo = [contents firstObject];
+    NSError *licenseUnzipError;
+    NSData *licenseData = [zipArchive unzipFileWithInfo:licenseInfo error:&licenseUnzipError];
+    XCTAssertNil(licenseUnzipError);
+    XCTAssert(licenseData.length == 1059);
 }
 
 - (void)testUnzippingProgress {

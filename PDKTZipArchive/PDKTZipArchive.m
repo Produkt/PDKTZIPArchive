@@ -184,22 +184,7 @@
 	// Close
 	unzClose(zip);
 
-	// The process of decompressing the .zip archive causes the modification times on the folders
-    // to be set to the present time. So, when we are done, they need to be explicitly set.
-    // set the modification date on all of the directories.
-    NSError * err = nil;
-    for (NSDictionary * d in directoriesModificationDates) {
-        if (![[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[d objectForKey:@"modDate"], NSFileModificationDate, nil] ofItemAtPath:[d objectForKey:@"path"] error:&err]) {
-            NSLog(@"[PDKTZipArchive] Set attributes failed for directory: %@.", [d objectForKey:@"path"]);
-        }
-        if (err) {
-            NSLog(@"[PDKTZipArchive] Error setting directory file modification date attribute: %@",err.localizedDescription);
-        }
-    }
-
-#if !__has_feature(objc_arc)
-	[directoriesModificationDates release];
-#endif
+    [self _fixModifiedFolders:directoriesModificationDates];
 
 	// Message delegate
 	if (success && [delegate respondsToSelector:@selector(zipArchiveDidUnzipArchiveAtPath:zipInfo:unzippedPath:)]) {
@@ -215,6 +200,21 @@
 		completionHandler(path, YES, nil);
 	}
 	return success;
+}
+
++ (void)_fixModifiedFolders:(NSSet *)directoriesModificationDates {
+    // The process of decompressing the .zip archive causes the modification times on the folders
+    // to be set to the present time. So, when we are done, they need to be explicitly set.
+    // set the modification date on all of the directories.
+    NSError * err = nil;
+    for (NSDictionary * d in directoriesModificationDates) {
+        if (![[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[d objectForKey:@"modDate"], NSFileModificationDate, nil] ofItemAtPath:[d objectForKey:@"path"] error:&err]) {
+            NSLog(@"[PDKTZipArchive] Set attributes failed for directory: %@.", [d objectForKey:@"path"]);
+        }
+        if (err) {
+            NSLog(@"[PDKTZipArchive] Error setting directory file modification date attribute: %@",err.localizedDescription);
+        }
+    }
 }
 
 + (BOOL)_processFile:(zipFile *)zip
@@ -528,6 +528,53 @@
     unzClose(_zip);
     
     return contentsInfo;
+}
+
+- (NSData *)unzipFileWithInfo:(PDKTZipFileInfo *)fileInfo error:(NSError **)error {
+    // Begin opening
+    NSError *zipFileError;
+    _zip = [[self class] zipFileAtPath:_path error:&zipFileError];
+    if (zipFileError) {
+        *error = zipFileError;
+        return nil;
+    }
+    unz_global_info  globalInfo = {0ul, 0ul};
+    unzGetGlobalInfo(_zip, &globalInfo);
+    
+    NSDictionary * fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:_path error:nil];
+    unsigned long long fileSize = [[fileAttributes objectForKey:NSFileSize] unsignedLongLongValue];
+    unsigned long long currentPosition = 0;
+    
+    // Begin unzipping
+    NSError *goToFirstFileError;
+    [[self class] goToFirstFile:_zip error:&goToFirstFileError];
+    if (goToFirstFileError) {
+        *error = zipFileError;
+    }
+    
+    int ret = 0;
+    unsigned char buffer[4096] = {0};
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSMutableSet *directoriesModificationDates = [[NSMutableSet alloc] init];
+    NSInteger currentFileNumber = 0;
+    
+    for (NSInteger i = 0; i < fileInfo.index; i++) {
+        ret = unzGoToNextFile(_zip);
+    }
+    
+    NSString *randomID = [[NSUUID UUID] UUIDString];
+    NSString *destination = [NSTemporaryDirectory() stringByAppendingPathComponent:randomID];
+    NSString *strPath;
+    
+    [[self class] _processFile:&_zip ret:&ret globalInfo:globalInfo zipFilePath:_path password:_password currentPosition:&currentPosition currentFileNumber:currentFileNumber destination:destination fileManager:fileManager modificationDates:directoriesModificationDates overwrite:true buffer:buffer strPath:&strPath delegate:nil fileSize:fileSize];
+    NSData *fileData = [NSData dataWithContentsOfFile:[destination stringByAppendingPathComponent:strPath]];
+    [fileManager removeItemAtPath:destination error:nil];
+
+    // Close
+    unzClose(_zip);
+    [[self class] _fixModifiedFolders:directoriesModificationDates];
+    
+    return fileData;
 }
 
 + (zipFile)zipFileAtPath:(NSString *)path error:(NSError **)error{

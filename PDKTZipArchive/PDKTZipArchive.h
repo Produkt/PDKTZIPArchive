@@ -38,6 +38,7 @@
 	  completionHandler:(void (^)(NSString *path, BOOL succeeded, NSError *error))completionHandler;
 
 - (NSArray<PDKTZipFileInfo *> *)fetchContentInfoWithError:(NSError **)error;
+- (NSData *)unzipFileWithInfo:(PDKTZipFileInfo *)fileInfo error:(NSError **)error;
 
 // Zip
 + (BOOL)createZipFileAtPath:(NSString *)path withFilesAtPaths:(NSArray *)filenames;
