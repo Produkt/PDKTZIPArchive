@@ -24,7 +24,7 @@
 {
 	_numFilesUnzipped = fileIndex + 1;
 }
-- (BOOL)zipArchiveShouldUnzipFileAtIndex:(NSInteger)fileIndex totalFiles:(NSInteger)totalFiles archivePath:(NSString *)archivePath fileInfo:(unz_file_info)fileInfo
+- (BOOL)zipArchiveShouldUnzipFileAtIndex:(NSInteger)fileIndex totalFiles:(NSInteger)totalFiles archivePath:(NSString *)archivePath
 {
 	//return YES;
 	return _numFilesUnzipped < _numFilesToUnzip;
@@ -129,6 +129,54 @@
 
 	testPath = [outputPath stringByAppendingPathComponent:@"LICENSE"];
 	XCTAssertTrue([fileManager fileExistsAtPath:testPath], @"LICENSE unzipped");
+}
+
+- (void)testFetchFilesInfo {
+    NSString *zipPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"TestArchive" ofType:@"zip"];
+    PDKTZipArchive *zipArchive = [[PDKTZipArchive alloc]initWithPath:zipPath];
+    NSError *error;
+    NSArray<PDKTZipFileInfo *> *contents = [zipArchive fetchContentInfoWithError:&error];
+    
+    XCTAssertNil(error);
+    XCTAssertEqual(contents.count, 2);
+    
+    PDKTZipFileInfo *licenseInfo = [contents firstObject];
+    XCTAssertEqual(licenseInfo.index, 0);
+    XCTAssertEqualObjects(licenseInfo.filename, @"LICENSE");
+    XCTAssertNotNil(licenseInfo.timestamp);
+    XCTAssertEqual(licenseInfo.CRC, 3911215856);
+    XCTAssertEqual(licenseInfo.uncompressedSize, 1059);
+    XCTAssertEqual(licenseInfo.compressedSize, 619);
+    XCTAssertFalse(licenseInfo.isDirectory);
+    
+    PDKTZipFileInfo *readmeInfo = [contents lastObject];
+    XCTAssertEqual(readmeInfo.index, 1);
+    XCTAssertEqualObjects(readmeInfo.filename, @"Readme.markdown");
+    XCTAssertNotNil(readmeInfo.timestamp);
+    XCTAssertEqual(readmeInfo.CRC, 3219512633);
+    XCTAssertEqual(readmeInfo.uncompressedSize, 905);
+    XCTAssertEqual(readmeInfo.compressedSize, 495);
+    XCTAssertFalse(readmeInfo.isDirectory);
+}
+
+- (void)testUnzipIndividualFiles {
+    NSString *zipPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"TestArchive" ofType:@"zip"];
+    PDKTZipArchive *zipArchive = [[PDKTZipArchive alloc]initWithPath:zipPath];
+    NSError *error;
+    NSArray<PDKTZipFileInfo *> *contents = [zipArchive fetchContentInfoWithError:&error];
+    
+    PDKTZipFileInfo *readmeInfo = [contents lastObject];
+    NSError *readmeUnzipError;
+    NSData *readmeData = [zipArchive unzipFileWithInfo:readmeInfo error:&readmeUnzipError];
+    XCTAssertNil(readmeUnzipError);
+    XCTAssert(readmeData.length == 905);
+    
+    
+    PDKTZipFileInfo *licenseInfo = [contents firstObject];
+    NSError *licenseUnzipError;
+    NSData *licenseData = [zipArchive unzipFileWithInfo:licenseInfo error:&licenseUnzipError];
+    XCTAssertNil(licenseUnzipError);
+    XCTAssert(licenseData.length == 1059);
 }
 
 - (void)testUnzippingProgress {
