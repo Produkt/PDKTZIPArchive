@@ -18,6 +18,8 @@
 
 @interface PDKTZipArchive : NSObject
 
+@property (weak, nonatomic) id<PDKTZipArchiveDelegate> delegate;
+
 // Unzip
 + (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination;
 + (BOOL)unzipFileAtPath:(NSString *)path toDestination:(NSString *)destination delegate:(id<PDKTZipArchiveDelegate>)delegate;

@@ -566,7 +566,7 @@
     NSString *destination = [NSTemporaryDirectory() stringByAppendingPathComponent:randomID];
     NSString *strPath;
     
-    [[self class] _processFile:&_zip ret:&ret globalInfo:globalInfo zipFilePath:_path password:_password currentPosition:&currentPosition currentFileNumber:currentFileNumber destination:destination fileManager:fileManager modificationDates:directoriesModificationDates overwrite:true buffer:buffer strPath:&strPath delegate:nil fileSize:fileSize];
+    [[self class] _processFile:&_zip ret:&ret globalInfo:globalInfo zipFilePath:_path password:_password currentPosition:&currentPosition currentFileNumber:currentFileNumber destination:destination fileManager:fileManager modificationDates:directoriesModificationDates overwrite:true buffer:buffer strPath:&strPath delegate:self.delegate fileSize:fileSize];
     NSData *fileData = [NSData dataWithContentsOfFile:[destination stringByAppendingPathComponent:strPath]];
     [fileManager removeItemAtPath:destination error:nil];
 
