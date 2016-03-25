@@ -572,7 +572,6 @@
 
     // Close
     unzClose(_zip);
-    [[self class] _fixModifiedFolders:directoriesModificationDates];
     
     return fileData;
 }
