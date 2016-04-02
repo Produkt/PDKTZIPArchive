@@ -8,7 +8,6 @@ Pod::Spec.new do |s|
   s.author       = { 'Sam Soffes' => 'sam@soff.es' }
   s.source       = { :git => 'https://github.com/Produkt/PDKTZipArchive.git', :tag => "v#{s.version}" }
   s.ios.deployment_target = '8.0'
-  s.osx.deployment_target = '10.6'
   s.source_files = 'PDKTZipArchive/*', 'PDKTZipArchive/minizip/*'
   s.library = 'z'
   s.requires_arc = true
