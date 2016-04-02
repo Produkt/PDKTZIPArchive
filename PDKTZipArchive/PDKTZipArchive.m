@@ -159,8 +159,7 @@
 	NSInteger currentFileNumber = 0;
 	do {
 		@autoreleasepool {
-            NSString *strPath;
-            unz_file_info fileInfo;
+            NSString *strPath;            
             if ([delegate respondsToSelector:@selector(zipArchiveShouldUnzipFileAtIndex:totalFiles:archivePath:)]) {
                 if (![delegate zipArchiveShouldUnzipFileAtIndex:currentFileNumber
                                                      totalFiles:(NSInteger)globalInfo.number_entry
@@ -171,13 +170,9 @@
                 }
             }
             
-            [self _processFile:&zip ret:&ret globalInfo:globalInfo zipFilePath:path password:password currentPosition:&currentPosition currentFileNumber:currentFileNumber destination:destination fileManager:fileManager modificationDates:directoriesModificationDates overwrite:overwrite buffer:buffer strPath:&strPath delegate:delegate fileSize:fileSize];
+            [self _processFile:&zip ret:&ret globalInfo:globalInfo zipFilePath:path password:password currentPosition:&currentPosition currentFileNumber:currentFileNumber destination:destination fileManager:fileManager modificationDates:directoriesModificationDates overwrite:overwrite buffer:buffer strPath:&strPath delegate:delegate fileSize:fileSize progressHandler:progressHandler];
             
             currentFileNumber++;
-            if (progressHandler)
-            {
-                progressHandler(strPath, fileInfo, currentFileNumber, globalInfo.number_entry);
-            }
 		}
 	} while(ret == UNZ_OK && ret != UNZ_END_OF_LIST_OF_FILE);
 
@@ -232,6 +227,7 @@
              strPath:(NSString **)filePath
             delegate:(id<PDKTZipArchiveDelegate>)delegate
             fileSize:(unsigned long long)fileSize
+     progressHandler:(void (^)(NSString *entry, unz_file_info zipInfo, long entryNumber, long total))progressHandler
 {
     
     if ([password length] == 0) {
@@ -332,6 +328,11 @@
     
     // Message delegate
     [self _notifyDidUnzipFileToDelegate:delegate currentFileNumber:currentFileNumber withGlobalInfo:globalInfo path:zipFilePath fileInfo:fileInfo fullPath:fullPath];
+    
+    if (progressHandler)
+    {
+        progressHandler(strPath, fileInfo, currentFileNumber, globalInfo.number_entry);
+    }
     
     return YES;
 }
@@ -566,7 +567,7 @@
     NSString *destination = [NSTemporaryDirectory() stringByAppendingPathComponent:randomID];
     NSString *strPath;
     
-    [[self class] _processFile:&_zip ret:&ret globalInfo:globalInfo zipFilePath:_path password:_password currentPosition:&currentPosition currentFileNumber:currentFileNumber destination:destination fileManager:fileManager modificationDates:directoriesModificationDates overwrite:true buffer:buffer strPath:&strPath delegate:self.delegate fileSize:fileSize];
+    [[self class] _processFile:&_zip ret:&ret globalInfo:globalInfo zipFilePath:_path password:_password currentPosition:&currentPosition currentFileNumber:currentFileNumber destination:destination fileManager:fileManager modificationDates:directoriesModificationDates overwrite:true buffer:buffer strPath:&strPath delegate:self.delegate fileSize:fileSize progressHandler:nil];
     NSData *fileData = [NSData dataWithContentsOfFile:[destination stringByAppendingPathComponent:strPath]];
     [fileManager removeItemAtPath:destination error:nil];
 
